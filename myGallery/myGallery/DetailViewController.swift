@@ -19,6 +19,9 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         title = selectedImage
         
+//        https://www.hackingwithswift.com/read/3/2/uiactivityviewcontroller-explained
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+
         if let imageToLoad = selectedImage {
             imageView.image  = UIImage(named: imageToLoad)
         }
@@ -36,7 +39,13 @@ class DetailViewController: UIViewController {
         navigationController?.hidesBarsOnTap = false
     }
     
-    func prefersHomeIndicatorAutoHidden() -> Bool {
+    @objc func shareTapped() {
+        let vc = UIActivityViewController(activityItems: [imageView.image!], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem=navigationItem.rightBarButtonItem
+        present(vc, animated: true)
+    }
+    
+    override func prefersHomeIndicatorAutoHidden() -> Bool {
         return navigationController!.hidesBarsOnTap
     }
     
